@@ -48,7 +48,9 @@ export default function Home() {
 
   const [pagination, setPagination] = useState({offset: 0, limit: 0});
 
-  useEffect(() => { fetchAtms(); });
+  useEffect(() => { fetchAtms(); },
+  // eslint-disable-next-line
+   []);
   const data = useMemo(() => [...atms], [atms] );
 
   const fetchAtms = async (params) => {

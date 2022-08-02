@@ -20,6 +20,7 @@ export default function PrivateRoute({ children }) {
         if (!loading && !authorized && pathIsProtected) {
         router.push('/login');
         }
+        // eslint-disable-next-line
     }, [loading, authorized, pathIsProtected]);
 
     if ((loading || !authorized) && pathIsProtected) {

@@ -154,6 +154,7 @@ function FormMap({form, setForm}) {
         geocodelongitude: setDecimals(e.latLng.lng(), 6),
       }
     ));
+    // eslint-disable-next-line
   }, [])
   
   if (!isLoaded) return <div>Harita yükleniyor...</div>

@@ -68,9 +68,9 @@ export default function DataTable({setModal, data, apiState}) {
           className='border-collapse border-gray-200 rounded-lg border-y'>
           <thead
             className='bg-gray-50 '>
-            {headerGroups.map((headerGroup) => {
+            {headerGroups.map((headerGroup, i) => {
               return (
-                <tr {...headerGroup.getHeaderGroupProps()}>
+                <tr key={i} {...headerGroup.getHeaderGroupProps()}>
                 {
                   headerGroup.headers.map((column, i) => {
                     return (
@@ -88,15 +88,15 @@ export default function DataTable({setModal, data, apiState}) {
           <tbody {...getTableBodyProps()}
           className='text-gray-800'>
             {
-              rows.map((row) => {
+              rows.map((row, i) => {
                 prepareRow(row);
                 return (
-                  <tr {...row.getRowProps()}
+                  <tr key={i} {...row.getRowProps()}
                   className='border-gray-200 border-y'>
                     {
-                      row.cells.map(cell => {
+                      row.cells.map((cell, i) => {
                         return (
-                          <td {...cell.getCellProps()}
+                          <td key={i} {...cell.getCellProps()}
                           className='px-12 py-3'>
                             { cell.render("Cell") }
                           </td>
