@@ -5,7 +5,7 @@ import { useAuthState, useAuthDispatch } from "../components/Context/MemberConte
 import { useRouter } from "next/router";
 import { MdArrowForward, MdOutlineInfo } from 'react-icons/md';
 
-function login() {
+export default function Login() {
   const { authenticated, authorized, user } = useAuthState();
   const dispatch = useAuthDispatch();
 
@@ -201,5 +201,3 @@ function login() {
   </>
   )
 }
-
-export default login
