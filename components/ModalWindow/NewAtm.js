@@ -40,15 +40,14 @@ export default function NewAtm({setModal}) {
       setFormState({status: 'loading', message: 'Gönderiliyor...'});
       await axios.post(process.env.NEXT_PUBLIC_API_URL, form)
         .then(res => {
-          setFormState({status: 'ok', message: res.data})
+          if (res.data.success === true) {
+            setFormState({status: 'ok', message: res.data.message})}
+          if (res.data.success === false) {
+            setFormState({status: 'err', message: res.data.message})}
         })
         .catch(err => {
           console.error(err);
-          if (err.response.status === 404) {
-            setFormState({status: 'err', message: 'Sunucuya bağlanılamadı.'})
-          } else {
-            setFormState({status: 'err', message: err.response.data})
-          }
+          setFormState({status: 'err', message: `Sunucuya bağlanılamadı. ${err}`})
         })
       } 
       

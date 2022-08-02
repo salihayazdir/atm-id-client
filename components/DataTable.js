@@ -1,8 +1,12 @@
 import { useMemo } from 'react';
+import { useAuthState } from '../components/Context/MemberContext';
 import { useTable, useSortBy } from 'react-table';
 import { FaRegEdit, FaCheck,  } from 'react-icons/fa';
 
 export default function DataTable({setModal, data, apiState}) {
+
+  const globalState = useAuthState();
+  const { memberno } = globalState.user;
 
   const booleanCellProps = (
     props => props.value === true && ( <FaCheck size={16} className='mx-auto' />)
@@ -39,13 +43,17 @@ export default function DataTable({setModal, data, apiState}) {
       {
         id: "edit",
         Header: "",
-        Cell: ({row}) => (
-          <button onClick={() => setModal(row.values.globalatmid)}
-            className='inline-flex items-center gap-2 px-2 py-1 -mx-6 bg-gray-100 rounded-md'>
-            <FaRegEdit size={16} className='text-blue-600'/>
-            <span className='font-semibold text-gray-700'>Düzenle</span>
-          </button>
-        )
+        Cell: ({row}) => {
+          if (row.values.memberno == memberno) {
+            return (
+              <button onClick={() => setModal(row.values.globalatmid)}
+                className='inline-flex items-center gap-2 px-2 py-1 -mx-6 bg-gray-100 rounded-md'>
+                <FaRegEdit size={16} className='text-blue-600'/>
+                <span className='font-semibold text-gray-700'>Düzenle</span>
+              </button>
+            )
+          }
+        }
       },
       ...columns,
     ])
