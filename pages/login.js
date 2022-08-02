@@ -19,6 +19,7 @@ export default function Login() {
     if (authorized && authenticated) {
       router.push('/')
     };
+    // eslint-disable-next-line
   }, [authorized])
   
 
