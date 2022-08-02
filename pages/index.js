@@ -6,8 +6,8 @@ import UserInfo from '../components/UserInfo';
 import {FaRegPlusSquare} from 'react-icons/fa';
 import {MdFilterAlt} from 'react-icons/md';
 import {IoMdTrash} from 'react-icons/io';
-import EditAtm from '../components/modalWindow/EditAtm';
-import NewAtm from '../components/modalWindow/NewAtm';
+import EditAtm from '../components/ModalWindow/EditAtm';
+import NewAtm from '../components/ModalWindow/NewAtm';
 import Filter from '../components/Filter';
 import Map from '../components/Map';
 
