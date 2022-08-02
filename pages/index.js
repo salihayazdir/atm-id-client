@@ -17,7 +17,7 @@ export default function Home() {
   const [atms, setAtms] = useState([]);
   const [apiState, setApiState] = useState('');
   
-  const [modal, setModal] = useState(null)
+  const [modal, setModal] = useState(null);
 
   const nullObject = {
     "memberno": null,
@@ -44,11 +44,11 @@ export default function Home() {
     "geocodelongitude": null
   }
   const [filters, setFilters] = useState(nullObject);
-  const [filterDropdown, setFilterDropdown] = useState(false)
+  const [filterDropdown, setFilterDropdown] = useState(false);
 
-  const [pagination, setPagination] = useState({offset: 0, limit: 0})
+  const [pagination, setPagination] = useState({offset: 0, limit: 0});
 
-  useEffect(() => { fetchAtms(); }, [])
+  useEffect(() => { fetchAtms(); }, []);
   const data = useMemo(() => [...atms], [atms] );
 
   const fetchAtms = async (params) => {
