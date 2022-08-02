@@ -72,9 +72,9 @@ export default function DataTable({setModal, data, apiState}) {
               return (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                 {
-                  headerGroup.headers.map((column) => {
+                  headerGroup.headers.map((column, i) => {
                     return (
-                      <th {...column.getHeaderProps()}
+                      <th key={i} {...column.getHeaderProps()}
                         className='px-12 py-4 font-semibold text-left align-bottom whitespace-nowrap'>
                         {column.render("Header")}
                       </th>
