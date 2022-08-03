@@ -82,7 +82,7 @@ export default function DataTable({setModal, data, apiState}) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
   return (
-    <div className='block max-w-full mb-20 overflow-x-auto'>
+    <div className='block max-w-full mb-6 overflow-x-auto'>
       {(apiState === 'loading') && <div>Sunucuya bağlanılıyor...</div>}
       {(apiState === 'error') && <div>Sunucuya bağlanılamadı.</div>}
       {(apiState === 'success') && (

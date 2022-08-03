@@ -26,7 +26,6 @@ export default function Login() {
     await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/members`)
       .then(res => {
         if (!res.data.success) throw res.data.message;
-        console.log(JSON.stringify(res.data.data))
         localStorage.setItem('members_list', JSON.stringify(res.data.data))
       })
       .catch(err => {

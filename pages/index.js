@@ -46,7 +46,7 @@ export default function Home() {
   const [filters, setFilters] = useState(nullObject);
   const [filterDropdown, setFilterDropdown] = useState(false);
 
-  const [pagination, setPagination] = useState({offset: 0, limit: 0});
+  const [pagination, setPagination] = useState({offset: 0, limit: 0, resultCount: null});
 
   useEffect(() => { fetchAtms(); },
   // eslint-disable-next-line
@@ -62,10 +62,10 @@ export default function Home() {
         console.error(err);
         setApiState('error')
       });
-      if(res) {
-      console.log('fetched')
-      setAtms(res.data);
-      setApiState('success')
+      if(res.data.success) {
+        setAtms(res.data.results.rows);
+        setApiState('success')
+        setPagination((prev) => ({...prev, resultCount: res.data.results.rowCount}))
     }
   }
 
@@ -102,7 +102,7 @@ export default function Home() {
       <UserInfo />
     </div>
     <Map data={data} setModal={setModal} />
-    <div className='text-xs bg-white border border-gray-200 rounded-lg shadow-md '>
+    <div className='flex flex-col text-xs bg-white border border-gray-200 rounded-lg shadow-md '>
       <div className='flex justify-between gap-4 p-6'>
         <div className='flex gap-4'>
           <button
@@ -138,7 +138,14 @@ export default function Home() {
       <DataTable
         setModal={setModal}
         data={data}
-        apiState={apiState} />
+        apiState={apiState}
+      />
+      <div
+        className='self-end p-4 border-t border-l border-gray-200 rounded-tl-md rounded-br-md'>
+        {` Sonuç Sayısı: ${pagination.resultCount} `}
+        {` Offset: ${pagination.offset} `}
+        {` Limit: ${pagination.limit} `}
+      </div>
     </div>
   </div>
   </>

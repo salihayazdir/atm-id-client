@@ -203,7 +203,7 @@ function FormMap({form, setForm}) {
       mapContainerClassName='w-full cursor-pointer col-span-12 h-[300px] mt-6 mb-4 rounded-lg shadow-md border border-gray-200'
       onClick={setFormPoint}
     >
-      <MarkerF position={point} />
+      <MarkerF position={point}/>
     </GoogleMap>
   )
 }
