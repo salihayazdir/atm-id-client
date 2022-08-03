@@ -47,6 +47,15 @@ export default function Home() {
   const [filterDropdown, setFilterDropdown] = useState(false);
 
   const [pagination, setPagination] = useState({offset: 0, limit: 0, resultCount: null});
+  const paginationEl = () => {
+    console.log('fired')
+    const {resultCount, limit, offset} = pagination
+    const pageCount = limit!==0 ? (Math.floor((resultCount-1) / limit) + 1) : 1
+    const currentPage = limit!==0 ? (Math.floor(offset / limit) + 1) : 1
+
+    return `Sayfa ${currentPage} / ${pageCount}`
+    
+  }
 
   useEffect(() => { fetchAtms(); },
   // eslint-disable-next-line
@@ -142,9 +151,7 @@ export default function Home() {
       />
       <div
         className='self-end p-4 border-t border-l border-gray-200 rounded-tl-md rounded-br-md'>
-        {` Sonuç Sayısı: ${pagination.resultCount} `}
-        {` Offset: ${pagination.offset} `}
-        {` Limit: ${pagination.limit} `}
+        {paginationEl()}
       </div>
     </div>
   </div>
