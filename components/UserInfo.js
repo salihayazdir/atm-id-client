@@ -1,20 +1,25 @@
 import { useState } from 'react';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp, MdPerson } from 'react-icons/md';
-import { useAuthState } from '../components/Context/MemberContext';
+import { useAuthState, useAuthDispatch } from '../components/Context/MemberContext';
 
 function UserInfo() {
   
     const [userDropdown, setUserDropdown] = useState(false)
 
     const globalState = useAuthState();
+    const dispatch = useAuthDispatch();
     const { memberno, email, name, id} = globalState.user;
-  
+
+    const membersList = JSON.parse(localStorage.getItem('members_list'))
+    const memberInfo = membersList.filter((member) => memberno === member.id)[0]
+
     return (
       <div
-        onClick={() => setUserDropdown((prev) => !prev)}
-        className={`bg-gray-100 text-sm z-[9] relative w-48   self-end border-gray-200 border
-        ${userDropdown ? 'rounded-t-lg text-gray-800' : 'rounded-lg text-gray-600'} `}>
-        <div className='flex items-center justify-between px-4 py-3'>
+        className={`bg-gray-100 text-sm z-[9] relative w-52 self-end border
+        ${userDropdown ? 'rounded-t-lg border-gray-300 text-gray-800' : 'rounded-lg border-gray-200 text-gray-600'} `}>
+        <div
+            onClick={() => setUserDropdown((prev) => !prev)}
+            className='flex items-center justify-between px-4 py-3 cursor-pointer'>
             <div className='flex items-center gap-2'>
                 <MdPerson size={24}/>
                 <span className='font-semibold'>{name}</span>
@@ -23,8 +28,14 @@ function UserInfo() {
         </div>
         {userDropdown &&
         <div
-            className='absolute p-4 -ml-[1px] bg-gray-100 border border-t-0 rounded-b-lg shadow-xl w-48'>
-            <hr className='mb-2 -mt-4'/>
+            className='absolute p-4 -ml-[1px] bg-gray-100  border-gray-300 border border-t-0 rounded-b-lg shadow-xl w-52'>
+            <hr className='mb-3 -mx-4 -mt-4 border-gray-300'/>
+            <div className='inline-flex items-center gap-2 font-semibold'>
+                <img src={memberInfo.logomark}
+                    className='w-10 h-10 border border-gray-200 rounded-md' />
+                <span>{memberInfo.bankname}</span>
+            </div>
+            <hr className='my-2'/>
             <div>
                 <span className='font-semibold'>Banka ID: </span>
                 <span>{memberno}</span>
@@ -39,6 +50,11 @@ function UserInfo() {
                 <span className='font-semibold'>Eposta: </span>
                 <span>{email}</span>
             </div>
+            <button
+                onClick={() => dispatch('LOGOUT')}
+                className='w-full p-2 mt-4 font-semibold text-gray-100 bg-gray-600 rounded-md'>
+                Çıkış Yap
+            </button>
         </div>}
       </div>
     )

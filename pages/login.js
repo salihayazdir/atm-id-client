@@ -21,14 +21,13 @@ export default function Login() {
     };
     // eslint-disable-next-line
   }, [authorized])
-  
-  console.log(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`)
 
-  const dispatchMembersData = async () => {
-    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`)
+  const saveMembersData = async () => {
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/members`)
       .then(res => {
         if (!res.data.success) throw res.data.message;
-        dispatch('POPULATE_MEMBERS', res.data.data)
+        console.log(JSON.stringify(res.data.data))
+        localStorage.setItem('members_list', JSON.stringify(res.data.data))
       })
       .catch(err => {
         console.error(err);
@@ -46,7 +45,7 @@ export default function Login() {
     e.preventDefault()
     setApiState(prev => ({...prev, loading: true}) )
     console.log(apiState)
-    await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`, loginForm)
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, loginForm)
       .then(res => {
         console.log(res);
         setOtpForm(res.data.code);
@@ -54,7 +53,7 @@ export default function Login() {
           dispatch('LOGIN');
           dispatch('POPULATE_USER', res.data.user);
           setApiState(prev => ({...prev, error: ''}));
-          dispatchMembersData();
+          saveMembersData();
         } else {
           throw res.data.message
         };

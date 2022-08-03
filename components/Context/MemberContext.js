@@ -9,7 +9,6 @@ const StateContext = createContext({
         email: null,
         name: null,
       },
-    members: [],
     authenticated: false,
     authorized: false,
     loading: true,
@@ -47,11 +46,6 @@ const reducer = (state, {type,payload}) => {
                 ...state,
                 user: payload,
             };
-        case 'POPULATE_MEMBERS':
-            return {
-                ...state,
-                members: payload,
-            };
         case 'STOP_LOADING':
             return {
                 ...state,
@@ -70,7 +64,6 @@ const AuthProvider = ({ children }) => {
             email: null,
             name: null,
           },
-        members: [],
         authenticated: false,
         authorized: false,
         loading: true,
