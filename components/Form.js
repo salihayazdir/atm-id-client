@@ -1,17 +1,29 @@
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api"
 import { useCallback } from "react"
 import { MdClose, MdCheck, MdOutlineCircle } from 'react-icons/md'
+import Select from "react-select"
 
 export default function Form({handleSubmit, form, setForm, button, isFilter}) {
 
   const handleTextField = (e) => {
-    setForm((prevForm) => (
+    setForm(prevForm => (
       {
         ...prevForm,
         [e.target.id]: e.target.value 
       }
     ))
     }
+
+  const handleSelect = (e) => {
+    console.log(form.memberno)
+    console.log(e)
+    setForm(prevForm => (
+      {
+        ...prevForm,
+        memberno: e.value
+      }
+      ))
+  }
   
   const styleTextInput = `bg-gray-50 border border-gray-200 px-4 py-3 rounded-md w-full mt-1 font-normal text-gray-800`
   const styleTextLabel = `col-span-4 font-semibold `
@@ -42,16 +54,42 @@ export default function Form({handleSubmit, form, setForm, button, isFilter}) {
     )
   }
 
+  const bankOptions = JSON.parse(localStorage.getItem('members_list')).map(bank => {
+    return ({
+        value: bank.id,
+        label: bank.bankname,
+      }) })
+
   return (
   <form onSubmit={handleSubmit}
     className={`grid grid-cols-12 text-sm gap-x-6 gap-y-2 pt-6 ${isFilter && ''}`}>
 
       {
         (isFilter) &&
+        <>
+        <label className={`col-span-12`}>
+          <span className="font-semibold">Banka</span>
+          <Select
+            // isMulti
+            name="colors"
+            options={ [ {value: null, label: 'Tümü'}, ...bankOptions ] }
+            className="mb-4"
+            value={bankOptions.filter(a => {if (form.memberno === a.value) return a.label})[0]}
+            defaultValue={{value: null, label: 'Tümü'}}
+            onChange={handleSelect}
+            styles={
+              {input: (provided) => ({...provided, padding: '8px', }),
+              container: (provided) => ({...provided, marginTop: '4px',}),
+              control: (provided) => ({...provided, backgroundColor:' rgb(249, 250, 251)', borderColor: 'rgb(229, 231, 235)', borderRadius: '6px', fontWeight: '400',})}
+            }
+            
+          />
+        </label>
         <label className={styleTextLabel} htmlFor="globalatmid">
           Global ID
           <input className={styleTextInput} id='globalatmid' name='globalatmid' value={form.globalatmid} type='text' onChange={handleTextField} required={!isFilter} />
-      </label>
+        </label>
+        </>
       }
 
       <label className={styleTextLabel} htmlFor="atmreferencecode">

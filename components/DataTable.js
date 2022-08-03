@@ -11,10 +11,24 @@ export default function DataTable({setModal, data, apiState}) {
   const booleanCellProps = (
     props => props.value === true && ( <FaCheck size={16} className='mx-auto' />)
   )
+
+  const bankCellProps = (
+    props => {
+      const membersList = JSON.parse(localStorage.getItem('members_list'))
+      const memberInfo = membersList.filter((member) => props.value === member.id)[0]
+      return (
+        <div className='inline-flex items-center gap-2'>
+          <img src={memberInfo.logomark}
+              className='w-10 h-10 border border-gray-200 rounded-md' />
+          <span>{memberInfo.bankname}</span>
+        </div>
+      )
+    }
+  )
   
   const columns = useMemo(() => [
     { Header: "ID", accessor: "globalatmid" },
-    { Header: "Banka", accessor: "memberno" },
+    { Header: "Banka", accessor: "memberno", Cell: bankCellProps },
     { Header: "Referans Kodu", accessor: "atmreferencecode" },
     { Header: "İsim", accessor: "atmname" },
     { Header: "İl Kodu", accessor: "licensetag" },
@@ -44,7 +58,7 @@ export default function DataTable({setModal, data, apiState}) {
         id: "edit",
         Header: "",
         Cell: ({row}) => {
-          if (row.values.memberno == memberno) {
+          if (row.values.memberno === memberno) {
             return (
               <button onClick={() => setModal(row.values.globalatmid)}
                 className='inline-flex items-center gap-2 px-2 py-1 -mx-6 bg-gray-100 rounded-md'>
