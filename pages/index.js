@@ -55,7 +55,7 @@ export default function Home() {
 
   const fetchAtms = async (params) => {
     setApiState('loading')
-    const res = await axios.get(process.env.NEXT_PUBLIC_API_URL,
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/atm`,
       {params: {...params, offset: pagination.offset, ...(pagination.limit && {limit: pagination.limit})}}
       )
       .catch(err => {

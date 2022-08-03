@@ -9,7 +9,7 @@ export default function Login() {
   const { authenticated, authorized, user } = useAuthState();
   const dispatch = useAuthDispatch();
 
-  const [loginForm, setLoginForm] = useState({email: ''});
+  const [loginForm, setLoginForm] = useState({email: 'atmidproject@gmail.com'});
   const [otpForm, setOtpForm] = useState('');
   const [apiState, setApiState] = useState({loading: false, error: ''})
   
@@ -22,6 +22,18 @@ export default function Login() {
     // eslint-disable-next-line
   }, [authorized])
   
+  console.log(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`)
+
+  const dispatchMembersData = async () => {
+    await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`)
+      .then(res => {
+        if (!res.data.success) throw res.data.message;
+        dispatch('POPULATE_MEMBERS', res.data.data)
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }
 
   const handleLoginFormInput = (e) => {
     setLoginForm(prev => ({
@@ -34,13 +46,15 @@ export default function Login() {
     e.preventDefault()
     setApiState(prev => ({...prev, loading: true}) )
     console.log(apiState)
-    await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/login`, loginForm)
+    await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`, loginForm)
       .then(res => {
         console.log(res);
+        setOtpForm(res.data.code);
         if (res.data.success) {
-          dispatch('LOGIN')
-          dispatch('POPULATE', res.data.user)
-          setApiState(prev => ({...prev, error: ''}))
+          dispatch('LOGIN');
+          dispatch('POPULATE_USER', res.data.user);
+          setApiState(prev => ({...prev, error: ''}));
+          dispatchMembersData();
         } else {
           throw res.data.message
         };
@@ -58,7 +72,7 @@ export default function Login() {
     e.preventDefault();
     setApiState(prev => ({...prev, loading: true}) )
 
-    await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/token`,
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/token`,
     { email: loginForm.email, code: otpForm})
       .then(res => {
         console.log(res);

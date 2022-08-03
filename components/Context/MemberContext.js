@@ -9,6 +9,7 @@ const StateContext = createContext({
         email: null,
         name: null,
       },
+    members: [],
     authenticated: false,
     authorized: false,
     loading: true,
@@ -40,11 +41,16 @@ const reducer = (state, {type,payload}) => {
                 authorized: false,
                 user: {}
             };
-        case 'POPULATE':
+        case 'POPULATE_USER':
             setCookie('userinfo', JSON.stringify(payload))
             return {
                 ...state,
                 user: payload,
+            };
+        case 'POPULATE_MEMBERS':
+            return {
+                ...state,
+                members: payload,
             };
         case 'STOP_LOADING':
             return {
@@ -64,6 +70,7 @@ const AuthProvider = ({ children }) => {
             email: null,
             name: null,
           },
+        members: [],
         authenticated: false,
         authorized: false,
         loading: true,
@@ -74,11 +81,11 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const loadUser = async () => {
             try {
-                await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/account`)
+                await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/account`)
                     .then(res => {
                         if (res.data.success) {
                             dispatch('AUTHORIZE');
-                            dispatch('POPULATE', JSON.parse(getCookie('userinfo')))
+                            dispatch('POPULATE_USER', JSON.parse(getCookie('userinfo')))
                         } else {
                             dispatch('LOGOUT');
                         };

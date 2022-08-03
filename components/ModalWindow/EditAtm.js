@@ -12,7 +12,7 @@ export default function EditAtm({data, modal, setModal}) {
     const editAtm = async (e) => {
         e.preventDefault();
         setFormState({status: 'loading', message: 'Gönderiliyor...'});
-        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/${modal}`, form)
+        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/atm/${modal}`, form)
             .then(res => {
                 if (res.data.success === true) {
                     setFormState({status: 'ok', message: res.data.message})}
@@ -28,7 +28,7 @@ export default function EditAtm({data, modal, setModal}) {
     const deleteAtm = async (e) => {
         e.preventDefault();
         setFormState({status: 'loading', message: 'Gönderiliyor...'});
-        await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/${modal}`)
+        await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/atm/${modal}`)
         .then(res => {
             if (res.data.success === true) {
                 setFormState({status: 'ok', message: res.data.message})}

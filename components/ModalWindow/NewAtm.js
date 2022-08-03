@@ -38,7 +38,7 @@ export default function NewAtm({setModal}) {
   const addAtm = async (e) => {
       e.preventDefault();
       setFormState({status: 'loading', message: 'Gönderiliyor...'});
-      await axios.post(process.env.NEXT_PUBLIC_API_URL, form)
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/atm`, form)
         .then(res => {
           if (res.data.success === true) {
             setFormState({status: 'ok', message: res.data.message})}
