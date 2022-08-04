@@ -1,15 +1,19 @@
 import { useMemo } from 'react';
 import { useAuthState } from '../components/Context/MemberContext';
 import { useTable, useSortBy } from 'react-table';
-import { FaRegEdit, FaCheck,  } from 'react-icons/fa';
+import { FaRegEdit } from 'react-icons/fa';
+import { MdClose, MdCheck, MdOutlineCircle } from 'react-icons/md'
 
 export default function DataTable({setModal, data, apiState}) {
 
   const globalState = useAuthState();
   const { memberno } = globalState.user;
 
-  const booleanCellProps = (
-    props => props.value === true && ( <FaCheck size={16} className='mx-auto' />)
+  const booleanCellProps = (props => {
+    if (props.value === true) return ( <MdCheck size={20} className='mx-auto text-green-500' />)
+    if (props.value === false) return ( <MdClose size={18} className='mx-auto text-red-500' />)
+    if (props.value === null) return ( <MdOutlineCircle size={18} className='mx-auto text-gray-200' />)
+  }
   )
 
   const bankCellProps = (

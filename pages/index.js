@@ -4,7 +4,7 @@ import axios from 'axios';
 import DataTable from '../components/DataTable';
 import UserInfo from '../components/UserInfo';
 import {FaRegPlusSquare} from 'react-icons/fa';
-import {MdFilterAlt} from 'react-icons/md';
+import {MdFilterAlt, MdRefresh} from 'react-icons/md';
 import {IoMdTrash} from 'react-icons/io';
 import EditAtm from '../components/ModalWindow/EditAtm';
 import NewAtm from '../components/ModalWindow/NewAtm';
@@ -95,12 +95,14 @@ export default function Home() {
     {(modal === 'new') ? 
     (<NewAtm
       setModal={setModal}
+      fetchAtms={fetchAtms}
     />)
     :
     (<EditAtm
       modal={modal}
-      setModal={setModal}
       data={data}
+      setModal={setModal}
+      fetchAtms={fetchAtms}
     />)
     }
   </>)}
@@ -137,12 +139,19 @@ export default function Home() {
             </button> : null
           }
         </div>
-        <button
-          onClick={() => setModal('new')} 
-          className='inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-100 bg-blue-600 rounded-md'>
-          <FaRegPlusSquare size={18}/>
-          Yeni ATM
-        </button>
+        <div className='flex items-center gap-4'>
+          <button
+            onClick={() => setModal('new')} 
+            className='inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-100 bg-blue-600 rounded-md'>
+            <FaRegPlusSquare size={18}/>
+            Yeni ATM
+          </button>
+          <button
+            onClick={() => fetchAtms(filters)}
+            className='inline-flex items-center gap-2 p-2 text-sm text-[#00dc80] rounded-md border border-gray-200'>
+            <MdRefresh size={18}/>
+          </button>
+        </div>
       </div>
       <DataTable
         setModal={setModal}

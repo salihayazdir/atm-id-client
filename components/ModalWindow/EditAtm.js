@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import Form from "../Form"
 import axios from "axios";
 
-export default function EditAtm({data, modal, setModal}) {
+export default function EditAtm({data, modal, setModal, fetchAtms}) {
   
     const atm = data.filter((atm) => atm.globalatmid === modal)[0]
     const [form, setForm] = useState(atm)
@@ -42,11 +42,8 @@ export default function EditAtm({data, modal, setModal}) {
         }
         
     const handleStatusModal = () => {
-        if (formState.status === 'ok') {
-            window.location.reload(false)
-        } else {
-            setFormState({});
-        }
+        setFormState({});
+        if (formState.status === 'ok') fetchAtms(); setModal(null);
         }
   
     return (

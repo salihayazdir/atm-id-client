@@ -4,7 +4,7 @@ import Form from "../Form"
 import axios from "axios";
 import { useAuthState, useAuthDispatch } from "../Context/MemberContext";
 
-export default function NewAtm({setModal}) {
+export default function NewAtm({setModal, fetchAtms}) {
 
   const state = useAuthState();
   const memberno = state.user.memberno;
@@ -52,11 +52,8 @@ export default function NewAtm({setModal}) {
       } 
       
   const handleStatusModal = () => {
-    if (formState.status === 'ok') {
-      window.location.reload(false)
-    } else {
-      setFormState({});
-    }
+    setFormState({});
+    if (formState.status === 'ok') fetchAtms(); setModal(null);
   }
 
   return (
