@@ -3,6 +3,7 @@ import { useAuthState } from '../components/Context/MemberContext';
 import { useTable, useSortBy } from 'react-table';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdClose, MdCheck, MdOutlineCircle } from 'react-icons/md'
+import Loader from './Loader';
 
 export default function DataTable({setModal, data, apiState}) {
 
@@ -86,10 +87,9 @@ export default function DataTable({setModal, data, apiState}) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
   return (
-    <div className='block max-w-full mb-6 overflow-x-auto'>
-      {(apiState === 'loading') && <div>Sunucuya bağlanılıyor...</div>}
-      {(apiState === 'error') && <div>Sunucuya bağlanılamadı.</div>}
-      {(apiState === 'success') && (
+    <div className={`block max-w-full mb-6 overflow-x-auto`}>
+
+      {(apiState === 'success' && Boolean(data.length)) && (
         <table {...getTableProps()}
           className='border-collapse border-gray-200 rounded-lg border-y'>
           <thead
@@ -136,6 +136,22 @@ export default function DataTable({setModal, data, apiState}) {
           </tbody>
         </table>
       )}
+      
+      {(data.length === 0) &&
+        <div className='flex items-center justify-center p-6 font-semibold text-gray-400 bg-gray-100'>
+          Sonuç bulunamadı.
+        </div>}
+
+      {(apiState === 'loading') && 
+        <Loader text='Yükleniyor...' 
+          svgStyles="inline w-6 h-6 mr-4 text-gray-400 animate-spin"
+          containerStyles='p-6 bg-gray-100 text-gray-400 font-semibold flex justify-center items-center' />}
+
+      {(apiState === 'error') &&
+        <div className='flex items-center justify-center p-6 font-semibold text-red-400 bg-gray-100'>
+          Bağlantı Hatası
+        </div>}
+      
     </div>
   )
 }

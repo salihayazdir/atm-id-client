@@ -64,6 +64,7 @@ export default function Home() {
 
   const fetchAtms = async (params) => {
     setApiState('loading')
+    console.log('fetched')
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/atm`,
       {params: {...params, offset: pagination.offset, ...(pagination.limit && {limit: pagination.limit})}}
       )
@@ -139,6 +140,7 @@ export default function Home() {
             </button> : null
           }
         </div>
+        
         <div className='flex items-center gap-4'>
           <button
             onClick={() => setModal('new')} 
@@ -153,15 +155,21 @@ export default function Home() {
           </button>
         </div>
       </div>
+
       <DataTable
         setModal={setModal}
         data={data}
         apiState={apiState}
       />
-      <div
+
+      {
+        (apiState === 'success' && Boolean(data.length)) &&
+        <div
         className='self-end p-4 border-t border-l border-gray-200 rounded-tl-md rounded-br-md'>
         {paginationEl()}
       </div>
+      }
+
     </div>
   </div>
   </>
