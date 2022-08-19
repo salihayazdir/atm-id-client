@@ -76,11 +76,8 @@ const AuthProvider = ({ children }) => {
             try {
                 await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/account`)
                     .then(res => {
-                        if (res.data.success) {
+                        if (res.data.success || !getCookie('userinfo')) {
                             dispatch('AUTHORIZE');
-                            // dispatch('POPULATE_USER', JSON.parse(getCookie('userinfo')))
-                            console.log(res.data)
-                            console.log(JSON.parse(getCookie('userinfo')))
                             dispatch('POPULATE_USER', res.data.user)
                         } else {
                             dispatch('LOGOUT');
