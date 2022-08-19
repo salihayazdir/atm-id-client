@@ -137,7 +137,7 @@ export default function DataTable({setModal, data, apiState}) {
         </table>
       )}
       
-      {(data.length === 0) &&
+      {((data.length === 0) && (apiState === 'success')) &&
         <div className='flex items-center justify-center p-6 font-semibold text-gray-400 bg-gray-100'>
           Sonuç bulunamadı.
         </div>}

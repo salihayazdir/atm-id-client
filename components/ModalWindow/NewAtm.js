@@ -40,6 +40,7 @@ export default function NewAtm({setModal, fetchAtms}) {
       setFormState({status: 'loading', message: 'Gönderiliyor...'});
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/atm`, form)
         .then(res => {
+          console.log(res.data.data)
           if (res.data.success === true) {
             setFormState({status: 'ok', message: res.data.message})}
           if (res.data.success === false) {
@@ -52,8 +53,11 @@ export default function NewAtm({setModal, fetchAtms}) {
       } 
       
   const handleStatusModal = () => {
-    setFormState({});
-    if (formState.status === 'ok') fetchAtms(); setModal(null);
+    setFormState(prev => ({status: '', message:''}));
+    if (formState.status === 'ok') {
+      fetchAtms()
+      setModal(null)
+    }
   }
 
   return (

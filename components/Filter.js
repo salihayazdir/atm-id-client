@@ -1,5 +1,4 @@
 import Form from './Form';
-import { IoMdTrash } from 'react-icons/io'
 import { MdClear } from 'react-icons/md'
 
 function Filter({filters, setFilters, getFilteredResults, clearFilters, setFilterDropdown}) {

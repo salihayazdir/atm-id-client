@@ -42,8 +42,11 @@ export default function EditAtm({data, modal, setModal, fetchAtms}) {
         }
         
     const handleStatusModal = () => {
-        setFormState({});
-        if (formState.status === 'ok') fetchAtms(); setModal(null);
+        setFormState(prev => ({status: '', message:''}));
+        if (formState.status === 'ok') {
+            fetchAtms()
+            setModal(null)
+        }
         }
   
     return (

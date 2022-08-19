@@ -78,7 +78,10 @@ const AuthProvider = ({ children }) => {
                     .then(res => {
                         if (res.data.success) {
                             dispatch('AUTHORIZE');
-                            dispatch('POPULATE_USER', JSON.parse(getCookie('userinfo')))
+                            // dispatch('POPULATE_USER', JSON.parse(getCookie('userinfo')))
+                            console.log(res.data)
+                            console.log(JSON.parse(getCookie('userinfo')))
+                            dispatch('POPULATE_USER', res.data.user)
                         } else {
                             dispatch('LOGOUT');
                         };

@@ -48,7 +48,6 @@ export default function Home() {
 
   const [pagination, setPagination] = useState({offset: 0, limit: 0, resultCount: null});
   const paginationEl = () => {
-    console.log('fired')
     const {resultCount, limit, offset} = pagination
     const pageCount = limit!==0 ? (Math.floor((resultCount-1) / limit) + 1) : 1
     const currentPage = limit!==0 ? (Math.floor(offset / limit) + 1) : 1
@@ -76,6 +75,9 @@ export default function Home() {
         setAtms(res.data.results.rows);
         setApiState('success')
         setPagination((prev) => ({...prev, resultCount: res.data.results.rowCount}))
+      if(!res.data.success) {
+        setApiState('error')
+      }
     }
   }
 
